@@ -1,9 +1,12 @@
+import queryString from "query-string";
 import "./App.scss";
+import Pagination from "./components/Pagination";
 import PostList from "./components/PostList";
 import TodoForm from "./components/TodoForm/TodoForm";
 import TodoList from "./components/TodoList/TodoList";
 import ColorBox from "./components/colorbox";
 import React, { useEffect, useState } from "react";
+// import PostFiltersForm from "./components/PostFiltersForm";
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -13,6 +16,15 @@ function App() {
   ]);
 
   const [postList, setPostList] = useState([]);
+  const [pagination, setPagination] = useState({
+    _page: 1,
+    _limit: 10,
+    _totalRows: 1,
+  });
+  const [filters, setFilters] = useState({
+    _limit: 10,
+    _page: 1,
+  });
 
   // Không có dependencies [] thì nó chạy má ơi luôn
   // Lấy API có dependencies[] thì chỉ chạy 1 lần
@@ -22,18 +34,28 @@ function App() {
   useEffect(() =>{
     async function  fetchPostList(){
     try {
-        const fectchUrl = 'http://js-post-api.herokuapp.com/api/posts?_limit=10&_page=1';
+      const paramsString = queryString.stringify(filters);
+        const fectchUrl = `http://js-post-api.herokuapp.com/api/posts?${paramsString}`;
         const response = await fetch(fectchUrl);
         const responseJSON = await response.json();
         console.log({responseJSON});
 
-        const {data} = responseJSON;
+        const {data, pagination} = responseJSON;
         setPostList(data);
+        setPagination(pagination);
     } catch (error) {
       console.log("Failed to fectch posts: ", error);
     }
   } fetchPostList();
-  }, []);
+  }, [filters]);
+
+  function handlePageChange(newPage){
+    console.log("New Page: ", newPage);
+    setFilters({
+      ...filters,
+      _page: newPage,
+    });
+  }
 
 
   // Lấy giá trị formValues lên để submit
@@ -70,7 +92,9 @@ function App() {
       <TodoList todos={todoList} onTodoClick={handleTodoClick} />
 
       <br/>
+      {/* <PostFiltersForm /> */}
       <PostList posts={postList}/>
+      <Pagination pagination={pagination} onPageChange={handlePageChange}/>
     </div>
   );
 }
