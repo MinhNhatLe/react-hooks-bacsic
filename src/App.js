@@ -6,7 +6,7 @@ import TodoForm from "./components/TodoForm/TodoForm";
 import TodoList from "./components/TodoList/TodoList";
 import ColorBox from "./components/colorbox";
 import React, { useEffect, useState } from "react";
-// import PostFiltersForm from "./components/PostFiltersForm";
+import PostFiltersForm from "./components/PostFiltersForm";
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -29,27 +29,27 @@ function App() {
   // Không có dependencies [] thì nó chạy má ơi luôn
   // Lấy API có dependencies[] thì chỉ chạy 1 lần
   // Nếu dependencies giữ nguyên kh thay đổi còn nó thay đổi thì chạy lại 1 lần
-  
+
   // Lấy API có dependencies [] chạy 1 lần
-  useEffect(() =>{
-    async function  fetchPostList(){
-    try {
-      const paramsString = queryString.stringify(filters);
+  useEffect(() => {
+    async function fetchPostList() {
+      try {
+        const paramsString = queryString.stringify(filters);
         const fectchUrl = `http://js-post-api.herokuapp.com/api/posts?${paramsString}`;
         const response = await fetch(fectchUrl);
         const responseJSON = await response.json();
-        console.log({responseJSON});
+        console.log({ responseJSON });
 
-        const {data, pagination} = responseJSON;
+        const { data, pagination } = responseJSON;
         setPostList(data);
         setPagination(pagination);
-    } catch (error) {
-      console.log("Failed to fectch posts: ", error);
-    }
-  } fetchPostList();
+      } catch (error) {
+        console.log("Failed to fectch posts: ", error);
+      }
+    } fetchPostList();
   }, [filters]);
 
-  function handlePageChange(newPage){
+  function handlePageChange(newPage) {
     console.log("New Page: ", newPage);
     setFilters({
       ...filters,
@@ -60,7 +60,7 @@ function App() {
 
   // Lấy giá trị formValues lên để submit
   function handleTodoFormSubmit(formValues) {
-    
+
     const newTodo = {
       id: todoList.length + 1,
       ...formValues,
@@ -83,6 +83,15 @@ function App() {
     setTodoList(newTodoList);
   }
 
+  function handleFiltersChange(newFilters) {
+    console.log("New Filter: ", newFilters);
+    setFilters({
+      ...filters,
+      _page:1,
+      title_like: newFilters.searchTerm,
+    })
+  }
+
   return (
     <div className="App">
       <h1>Hello moi nguoi</h1>
@@ -91,10 +100,10 @@ function App() {
       <TodoForm onSubmit={handleTodoFormSubmit} />
       <TodoList todos={todoList} onTodoClick={handleTodoClick} />
 
-      <br/>
-      {/* <PostFiltersForm /> */}
-      <PostList posts={postList}/>
-      <Pagination pagination={pagination} onPageChange={handlePageChange}/>
+      <br />
+      <PostFiltersForm onSubmit={handleFiltersChange} />
+      <PostList posts={postList} />
+      <Pagination pagination={pagination} onPageChange={handlePageChange} />
     </div>
   );
 }
