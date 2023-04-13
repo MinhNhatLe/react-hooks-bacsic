@@ -7,6 +7,7 @@ import TodoList from "./components/TodoList/TodoList";
 import ColorBox from "./components/colorbox";
 import React, { useEffect, useState } from "react";
 import PostFiltersForm from "./components/PostFiltersForm";
+import Clock from "./components/Clock";
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -91,16 +92,21 @@ function App() {
       title_like: newFilters.searchTerm,
     })
   }
+  const [showClock, setShowClock] = useState(true);
 
   return (
     <div className="App">
       <h1>Hello moi nguoi</h1>
+      <hr/>
+      {showClock &&  <Clock />}
+      <button onClick={() => setShowClock(false)}>Hide clock</button>
+      <hr/>
       <ColorBox />
-      <br />
+      <hr />
       <TodoForm onSubmit={handleTodoFormSubmit} />
       <TodoList todos={todoList} onTodoClick={handleTodoClick} />
 
-      <br />
+      <hr />
       <PostFiltersForm onSubmit={handleFiltersChange} />
       <PostList posts={postList} />
       <Pagination pagination={pagination} onPageChange={handlePageChange} />
