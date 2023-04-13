@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.scss";
 import Hero from "./components/Hero";
+import Counter from "./components/Counter";
 // import HomePage from "./page";
 
 
@@ -17,7 +18,11 @@ function App() {
       <button onClick={() => setCount(count + 1)}>Increase</button>
 
       <Hero name='Easy Frontend' onClick={handleHeroClick} />
+
       <hr />
+        <Counter/>
+      <hr />
+
       {/* <HomePage/> */}
     </div>
   );
