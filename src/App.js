@@ -8,6 +8,8 @@ import ColorBox from "./components/colorbox";
 import React, { useEffect, useState } from "react";
 import PostFiltersForm from "./components/PostFiltersForm";
 import Clock from "./components/Clock";
+import BetterClock from "./components/BetterClock";
+import MagicBox from "./components/MagicBox";
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -88,7 +90,7 @@ function App() {
     console.log("New Filter: ", newFilters);
     setFilters({
       ...filters,
-      _page:1,
+      _page: 1,
       title_like: newFilters.searchTerm,
     })
   }
@@ -97,10 +99,14 @@ function App() {
   return (
     <div className="App">
       <h1>Hello moi nguoi</h1>
-      <hr/>
-      {showClock &&  <Clock />}
+      <hr />
+      <MagicBox />
+      <hr />
+      {showClock && <Clock />}
       <button onClick={() => setShowClock(false)}>Hide clock</button>
-      <hr/>
+      <hr />
+      <BetterClock />
+      <hr />
       <ColorBox />
       <hr />
       <TodoForm onSubmit={handleTodoFormSubmit} />

@@ -1,0 +1,13 @@
+.better-clock {
+    display: inline-block;
+    width: 300px;
+    border: 5px solid;
+    border-radius: 10px;
+
+    text-align: center;
+
+    &__time {
+        font-size: 30px;
+        color: brown;
+    }
+}
