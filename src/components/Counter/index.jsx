@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 Counter.propTypes = {};
 
+
+// su dung useRef
 function Counter(props) {
     const [count, setCount] = useState(0);
     const prevCount = useRef(count);

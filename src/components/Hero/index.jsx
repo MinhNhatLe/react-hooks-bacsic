@@ -19,3 +19,6 @@ function Hero(props) {
 }
 
 export default React.memo(Hero);
+
+
+//su dung  Memo HOC
